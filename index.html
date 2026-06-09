@@ -3,7 +3,677 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medarbetarsamtal – CHEF - MEDARBETARE_byt till initialer eller avkodad info</title>
+<title>Medarbetarsamtal – CH<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medarbetarsamtal – formulär</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue:#1a3c6e; --blue-mid:#2a5298; --blue-light:#e8eef7; --blue-accent:#3b6fcf;
+    --ok:#1e7e4a; --ok-bg:#e8f5ee; --warn:#b45309; --warn-bg:#fef3e2; --avv:#b91c1c; --avv-bg:#fef2f2;
+    --text:#1a1a2e; --muted:#4b5563; --border:#d4dde8; --white:#fff; --bg:#f4f7fb;
+  }
+  body { font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:0 0 48px; }
+  h1,h2,.section-num { font-family: Georgia, 'Times New Roman', serif; }
+  .site-header { width:100%; background:var(--blue); padding:18px 32px; display:flex; align-items:center; justify-content:space-between; color:white; position:sticky; top:0; z-index:100; box-shadow:0 2px 12px rgba(26,60,110,.25); }
+  .logo { font-size:1.3rem; letter-spacing:.02em; }
+  .subtitle { font-size:.8rem; opacity:.78; margin-top:2px; }
+  .header-actions { display:flex; align-items:center; gap:10px; }
+  .mini-btn { border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.12); color:white; padding:8px 12px; border-radius:8px; font-size:.78rem; cursor:pointer; }
+  .mini-btn:hover { background:rgba(255,255,255,.18); }
+  .page-wrap { width:100%; max-width:860px; padding:0 24px; }
+  .intro-drop { margin-top:24px; background:var(--white); border:1px solid var(--border); border-radius:14px; box-shadow:0 4px 24px rgba(26,60,110,.07); overflow:hidden; }
+  .intro-drop summary { list-style:none; cursor:pointer; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .intro-drop summary::-webkit-details-marker { display:none; }
+  .intro-title { font-size:1rem; font-weight:700; color:var(--blue); }
+  .intro-sub { font-size:.88rem; color:var(--muted); margin-top:4px; line-height:1.5; }
+  .chev { color:var(--blue-mid); font-size:1.25rem; line-height:1; transition:transform .2s; }
+  .intro-drop[open] .chev { transform:rotate(180deg); }
+  .intro-body { border-top:1px solid var(--blue-light); padding:20px 22px 22px; display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+  .intro-copy p { margin-bottom:10px; line-height:1.65; font-size:.92rem; }
+  .intro-panel { background:var(--blue-light); border:1px solid var(--border); border-radius:12px; padding:16px; }
+  .intro-panel h3 { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--blue-mid); margin-bottom:10px; }
+  .intro-panel ul { padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .intro-panel li { font-size:.88rem; line-height:1.5; }
+  .progress-wrap { width:100%; max-width:860px; margin:22px auto 0; padding:0 24px; }
+  .progress-info { display:flex; justify-content:space-between; font-size:.75rem; font-weight:600; color:var(--muted); margin-bottom:8px; }
+  .progress-bar { height:6px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--blue-mid),var(--blue-accent)); border-radius:99px; transition:width .35s ease; }
+  .steps-nav { display:flex; gap:10px; justify-content:center; margin:18px auto 0; max-width:860px; padding:0 24px; flex-wrap:wrap; }
+  .step-dot { display:flex; align-items:center; gap:6px; cursor:pointer; padding:6px 12px; border-radius:20px; font-size:.72rem; font-weight:600; color:var(--muted); border:1.5px solid var(--border); background:var(--white); transition:all .2s; }
+  .step-dot:hover { border-color:var(--blue-accent); color:var(--blue-accent); }
+  .step-dot:focus-visible { outline:3px solid var(--blue-accent); outline-offset:2px; }
+  .step-dot.active { background:var(--blue); color:white; border-color:var(--blue); }
+  .step-dot.done { background:var(--ok-bg); color:var(--ok); border-color:#a3d9b8; }
+  .step-dot .num { width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; background:rgba(255,255,255,.24); }
+  .step-dot.done .num { background:var(--ok); color:white; }
+  .card { background:var(--white); border-radius:16px; box-shadow:0 4px 28px rgba(26,60,110,.08); max-width:860px; width:calc(100% - 48px); margin:26px auto 0; overflow:hidden; display:none; }
+  .card.active { display:block; }
+  .card-header { background:linear-gradient(135deg,var(--blue) 0%,var(--blue-mid) 100%); padding:24px 30px; color:white; display:flex; align-items:flex-start; gap:16px; }
+  .section-num { font-size:2.7rem; line-height:1; opacity:.22; min-width:52px; }
+  .card-header-text h2 { font-size:1.55rem; font-weight:400; margin-bottom:6px; }
+  .card-header-text p { font-size:.86rem; line-height:1.6; max-width:620px; opacity:.88; }
+  .card-body { padding:28px 30px; }
+  .fragor-block { background:var(--blue-light); border-radius:12px; padding:18px 20px; margin-bottom:24px; }
+  .fragor-block h3,.status-block h3,.field-group label,.summary-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
+  .fragor-block h3 { color:var(--blue-mid); margin-bottom:10px; }
+  .fragor-block ul { padding-left:18px; display:flex; flex-direction:column; gap:8px; }
+  .fragor-block li { font-size:.9rem; line-height:1.5; }
+  .status-block { margin-bottom:22px; }
+  .status-block h3 { color:var(--muted); margin-bottom:8px; }
+  .status-intro { font-size:.83rem; color:var(--muted); line-height:1.55; margin-bottom:12px; }
+  .status-options { display:flex; flex-direction:column; gap:10px; }
+  .status-option { display:flex; align-items:center; gap:12px; padding:13px 16px; border-radius:10px; border:2px solid var(--border); cursor:pointer; transition:all .2s; }
+  .status-option input[type="radio"] { position:absolute; opacity:0; width:1px; height:1px; margin:0; }
+  .dot { width:18px; height:18px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .dot::after { content:''; width:8px; height:8px; border-radius:50%; background:white; opacity:0; }
+  .label-text { font-size:.9rem; font-weight:700; }
+  .label-sub { font-size:.8rem; color:var(--muted); margin-top:2px; }
+  .status-option.ok:hover,.status-option.ok.checked { border-color:var(--ok); background:var(--ok-bg); }
+  .status-option.ok.checked .dot { background:var(--ok); border-color:var(--ok); }
+  .status-option.ok.checked .dot::after { opacity:1; }
+  .status-option.ok.checked .label-text { color:var(--ok); }
+  .status-option.warn:hover,.status-option.warn.checked { border-color:var(--warn); background:var(--warn-bg); }
+  .status-option.warn.checked .dot { background:var(--warn); border-color:var(--warn); }
+  .status-option.warn.checked .dot::after { opacity:1; }
+  .status-option.warn.checked .label-text { color:var(--warn); }
+  .status-option.avv:hover,.status-option.avv.checked { border-color:var(--avv); background:var(--avv-bg); }
+  .status-option.avv.checked .dot { background:var(--avv); border-color:var(--avv); }
+  .status-option.avv.checked .dot::after { opacity:1; }
+  .status-option.avv.checked .label-text { color:var(--avv); }
+  .field-group { margin-bottom:18px; }
+  .field-group label { display:block; color:var(--muted); margin-bottom:8px; }
+  .field-desc { font-size:.82rem; color:var(--muted); line-height:1.55; margin-bottom:8px; }
+  textarea { width:100%; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; font-family:Arial, Helvetica, sans-serif; font-size:.9rem; color:var(--text); resize:vertical; min-height:110px; line-height:1.55; }
+  textarea:focus { outline:none; border-color:var(--blue-accent); box-shadow:0 0 0 3px rgba(59,111,207,.12); }
+  .divider { border:none; border-top:1px solid var(--blue-light); margin:22px 0; }
+  .nav-buttons { display:flex; justify-content:space-between; align-items:center; padding:20px 30px; border-top:1px solid var(--blue-light); background:var(--bg); }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-size:.86rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; }
+  .btn-ghost { background:transparent; color:var(--muted); border:1.5px solid var(--border); }
+  .btn-primary { background:var(--blue); color:white; }
+  .btn-success { background:var(--ok); color:white; }
+  .summary-wrap { margin-top:10px; }
+  .summary-title { color:var(--muted); margin-bottom:12px; }
+  .summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .summary-item { border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+  .summary-item h4 { font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:8px; }
+  .summary-badge { display:inline-flex; align-items:center; gap:6px; font-size:.82rem; font-weight:700; padding:4px 10px; border-radius:20px; }
+  .badge-ok { background:var(--ok-bg); color:var(--ok); } .badge-warn { background:var(--warn-bg); color:var(--warn); } .badge-avv { background:var(--avv-bg); color:var(--avv); } .badge-none { background:var(--blue-light); color:var(--muted); }
+  .print-note { font-size:.78rem; color:var(--muted); }
+  @media (max-width: 780px) {
+    .site-header { padding:16px 18px; align-items:flex-start; flex-direction:column; gap:12px; }
+    .header-actions { width:100%; justify-content:space-between; }
+    .intro-body { grid-template-columns:1fr; }
+    .summary-grid { grid-template-columns:1fr; }
+    .card-header { padding:22px; }
+    .card-body,.nav-buttons { padding-left:22px; padding-right:22px; }
+  }
+  @page { size:A4; margin:10mm 12mm; }
+  @media print {
+    html, body { background:white !important; font-size:9pt; }
+    body { display:block; padding:0; }
+    .site-header, .progress-wrap, .steps-nav, .nav-buttons, .print-only-hide { display:none !important; }
+    .page-wrap, .card { max-width:none !important; width:100% !important; padding:0 !important; margin:0 !important; box-shadow:none !important; }
+
+    /* ── Intro: visas som kompakt första sida ── */
+    .intro-drop { display:block !important; border:1px solid #cfd6e2; border-radius:8px; margin-bottom:6mm; page-break-after:always; break-after:page; padding:0; overflow:visible; }
+    .intro-drop summary { display:flex !important; padding:8px 12px; border-bottom:1px solid #dde4ef; }
+    .intro-title { font-size:13pt; font-weight:700; color:#1a3c6e; }
+    .intro-sub { font-size:8pt; color:#6b7280; margin-top:2px; display:block !important; }
+    .chev { display:none !important; }
+    .intro-body { display:grid !important; grid-template-columns:1.2fr 0.8fr; gap:12px; padding:10px 12px 12px; }
+    .intro-copy p { font-size:8.5pt; line-height:1.55; margin-bottom:6px; }
+    .intro-panel { background:#f0f5fb; border:1px solid #d4dde8; border-radius:8px; padding:10px 12px; }
+    .intro-panel h3 { font-size:7pt; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:#2a5298; margin-bottom:8px; }
+    .intro-panel ul { padding-left:14px; }
+    .intro-panel li { font-size:8pt; line-height:1.5; margin-bottom:4px; }
+    .print-note { font-size:7pt; color:#9ca3af; margin-top:8px; }
+
+    /* ── Cards: ett avsnitt per A4-sida ── */
+    .card { display:block !important; border:1px solid #cfd6e2; border-radius:8px; overflow:visible;
+            page-break-before:always; break-before:page;
+            page-break-after:always; break-after:page;
+            page-break-inside:avoid; break-inside:avoid; }
+    .card:last-of-type { page-break-after:auto; break-after:auto; }
+
+    /* Header */
+    .card-header { background:#eef3fb !important; color:#1a1a2e !important; padding:8px 12px; border-bottom:2px solid #2a5298; border-radius:8px 8px 0 0; display:flex; align-items:flex-start; gap:10px; }
+    .section-num { font-size:26pt; opacity:.15; min-width:36px; line-height:1; }
+    .card-header-text h2 { font-size:14pt; font-weight:700; margin-bottom:2px; }
+    .card-header-text p { font-size:8pt; color:#334155 !important; opacity:1; line-height:1.4; }
+
+    /* Body */
+    .card-body { padding:8px 12px 10px; }
+
+    /* Questions */
+    .fragor-block { background:#f5f8fd; border:1px solid #d4dde8; border-radius:6px; padding:7px 10px; margin-bottom:8px; break-inside:avoid; }
+    .fragor-block h3 { font-size:6.5pt; letter-spacing:.08em; margin-bottom:6px; }
+    .fragor-block ul { padding-left:14px; gap:4px; }
+    .fragor-block li { font-size:8pt; line-height:1.4; }
+
+    /* Status */
+    .status-block { margin-bottom:8px; break-inside:avoid; }
+    .status-block h3 { font-size:6.5pt; margin-bottom:4px; }
+    .status-intro { font-size:7.5pt; margin-bottom:6px; line-height:1.4; }
+    .status-options { gap:4px; }
+    .status-option { padding:5px 8px; border-radius:6px; border-width:1.5px; }
+    .label-text { font-size:8pt; }
+    .label-sub { font-size:7pt; }
+    .dot { width:13px; height:13px; }
+    .dot::after { width:6px; height:6px; }
+
+    /* Divider */
+    .divider { margin:7px 0; }
+
+    /* Textareas → tomma linjer för handskrift / ifyllnad */
+    .field-group { margin-bottom:8px; break-inside:avoid; }
+    .field-group label { font-size:6.5pt; margin-bottom:4px; display:block; }
+    .field-desc { font-size:7pt; margin-bottom:4px; }
+    textarea { min-height:44px !important; height:44px !important; font-size:8pt; border:1px solid #b7c2d3; border-radius:5px; padding:5px 8px; resize:none; overflow:hidden; background:white; }
+
+    /* Summary (avsnitt 6) */
+    .summary-wrap { margin-top:6px; break-inside:avoid; }
+    .summary-title { font-size:6.5pt; margin-bottom:8px; }
+    .summary-grid { grid-template-columns:1fr 1fr; gap:6px; }
+    .summary-item { padding:7px 10px; border-radius:6px; }
+    .summary-item h4 { font-size:6.5pt; margin-bottom:4px; }
+    .summary-badge { font-size:7.5pt; padding:2px 8px; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div>
+    <div class="logo">Medarbetarsamtal</div>
+    <div class="subtitle">Formulär för medarbetarsamtal</div>
+  </div>
+  <div class="header-actions">
+    <button class="mini-btn print-only-hide" onclick="window.print()">Skriv ut / spara PDF</button>
+    <button class="mini-btn print-only-hide" onclick="resetFormData()">Rensa sparad data</button>
+  </div>
+</header>
+
+<div class="page-wrap">
+  <details class="intro-drop">
+    <summary>
+      <div>
+        <div class="intro-title">Inledning och användning av mallen</div>
+        <div class="intro-sub">Fokusera på dialogen – frågorna är ett stöd och det viktigaste är vad ni landar i framåt.</div>
+      </div>
+      <div class="chev">⌄</div>
+    </summary>
+    <div class="intro-body">
+      <div class="intro-copy">
+        <p>Medarbetarsamtalet är en del av kommunens arbete med arbetsmiljö, verksamhetsutveckling och löpande dialog mellan chef och medarbetare. Samtalet ska bidra till en gemensam förståelse för medarbetarens arbetssituation, uppdrag och utveckling samt skapa en tydlig riktning framåt.</p>
+        <p>Samtalet utgår från både nuläge och tidigare dialog och är en del av en kontinuerlig uppföljning under året. Mallen är ett stöd för att strukturera dialogen och skapa progression, inte en ersättning för den löpande dialogen.</p>
+        <p>Varje område i mallen följer samma struktur: en övergripande bild av nuläget, medarbetarens reflektion, chefens reflektion och en gemensam framåtblick. Syftet är att skapa tydlighet i vad som behöver fungera eller utvecklas framåt samt att landa i konkreta fokusområden och uppföljning.</p>
+        <p>Frågor som rör hälsa, privatliv och trygghet ingår i samtalet och hanteras med omsorg och sekretess. Dessa delar är inte kopplade till lönebedömning. Samtalet utgör samtidigt en del av helheten i löneprocessen genom att skapa en röd tråd mellan dialoger över tid.</p>
+      </div>
+      <aside class="intro-panel">
+        <h3>Så används mallen</h3>
+        <ul>
+          <li>Arbeta område för område.</li>
+          <li>Välj först en samlad lägesbild som startpunkt för dialogen.</li>
+          <li>Fördjupa därefter med medarbetarens och chefens reflektion.</li>
+          <li>Avsluta med vad som behöver fungera eller förändras framåt.</li>
+        </ul>
+        <p class="print-note" style="margin-top:10px;">Tips: Vid utskrift blir inledningen kortad för att ge mer plats åt själva samtalet.</p>
+      </aside>
+    </div>
+  </details>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-info"><span id="progress-label">Avsnitt 1 av 6</span><span id="progress-pct">17%</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:17%" role="progressbar" aria-valuenow="17" aria-valuemin="0" aria-valuemax="100" aria-label="Avsnitt 1 av 6"></div></div>
+</div>
+<div class="steps-nav" id="steps-nav"></div>
+
+<section class="card active" data-section="1">
+  <div class="card-header">
+    <div class="section-num">1</div>
+    <div class="card-header-text">
+      <h2>Hälsa och arbetsmiljö</h2>
+      <p>Detta område syftar till att skapa en gemensam bild av medarbetarens hälsa och arbetssituation, inklusive arbetsbelastning, återhämtning och förutsättningar att utföra arbetet.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul><li>Hur mår du just nu överlag, och finns det något som påverkar din arbetssituation?</li><li>Vad är viktigt för att din arbetssituation ska fungera bra framåt?</li></ul>
+    </div>
+    <div class="status-block">
+      <h3>Samlad lägesbild</h3>
+      <p class="status-intro">Markera det alternativ som bäst stämmer med din upplevelse i detta område. Bedömningen är en startpunkt för dialog - det är samtalet som avgör nuläget och vad som behöver göras framåt.</p>
+      <div class="status-options" role="radiogroup">
+        <label class="status-option ok" onclick="selectStatus(this,'s1')" aria-label="Fungerar väl – Det fungerar överlag bra">
+          <input type="radio" name="s1_status" value="ok">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar väl</div><div class="label-sub">Det fungerar överlag bra</div></div>
+        </label>
+        <label class="status-option warn" onclick="selectStatus(this,'s1')" aria-label="Fungerar delvis – Det finns delar som kan utvecklas">
+          <input type="radio" name="s1_status" value="warn">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar delvis</div><div class="label-sub">Det finns delar som kan utvecklas</div></div>
+        </label>
+        <label class="status-option avv" onclick="selectStatus(this,'s1')" aria-label="Behöver utvecklas – Det finns tydliga behov av förändring">
+          <input type="radio" name="s1_status" value="avv">
+          <div class="dot"></div>
+          <div><div class="label-text">Behöver utvecklas</div><div class="label-sub">Det finns tydliga behov av förändring</div></div>
+        </label>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Medarbetarens reflektion</label>
+      <textarea placeholder="Skriv din reflektion här..." name="s1_medarbetare" rows="4"></textarea>
+    </div>
+    <div class="field-group">
+      <label>Chefens reflektion</label>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s1_chef" rows="4"></textarea>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam framåtblick - vad behöver fungera eller förändras framåt?</label>
+      <div class="field-desc">Beskriv vad som behöver fungera eller förändras framåt för att skapa en hållbar arbetssituation, inklusive eventuella åtgärder eller justeringar.</div>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s1_framat" rows="4"></textarea>
+    </div>
+
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" disabled>← Föregående</button>
+    <button class="btn btn-primary" onclick="go(2)">Nästa avsnitt →</button>
+  </div>
+</section>
+
+<section class="card" data-section="2">
+  <div class="card-header">
+    <div class="section-num">2</div>
+    <div class="card-header-text">
+      <h2>Uppdrag, ansvar och tydlighet</h2>
+      <p>Detta område syftar till att skapa tydlighet i uppdrag, ansvar och prioriteringar samt en gemensam bild av vad som är viktigast i arbetet.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul><li>Hur upplever du ditt uppdrag och dina arbetsuppgifter?</li><li>Finns det något som behöver vara tydligare eller fungera bättre framåt?</li></ul>
+    </div>
+    <div class="status-block">
+      <h3>Samlad lägesbild</h3>
+      <p class="status-intro">Markera det alternativ som bäst stämmer med din upplevelse i detta område. Bedömningen är en startpunkt för dialog - det är samtalet som avgör nuläget och vad som behöver göras framåt.</p>
+      <div class="status-options" role="radiogroup">
+        <label class="status-option ok" onclick="selectStatus(this,'s2')" aria-label="Fungerar väl – Det fungerar överlag bra">
+          <input type="radio" name="s2_status" value="ok">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar väl</div><div class="label-sub">Det fungerar överlag bra</div></div>
+        </label>
+        <label class="status-option warn" onclick="selectStatus(this,'s2')" aria-label="Fungerar delvis – Det finns delar som kan utvecklas">
+          <input type="radio" name="s2_status" value="warn">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar delvis</div><div class="label-sub">Det finns delar som kan utvecklas</div></div>
+        </label>
+        <label class="status-option avv" onclick="selectStatus(this,'s2')" aria-label="Behöver utvecklas – Det finns tydliga behov av förändring">
+          <input type="radio" name="s2_status" value="avv">
+          <div class="dot"></div>
+          <div><div class="label-text">Behöver utvecklas</div><div class="label-sub">Det finns tydliga behov av förändring</div></div>
+        </label>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Medarbetarens reflektion</label>
+      <textarea placeholder="Skriv din reflektion här..." name="s2_medarbetare" rows="4"></textarea>
+    </div>
+    <div class="field-group">
+      <label>Chefens reflektion</label>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s2_chef" rows="4"></textarea>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam framåtblick - vad behöver fungera eller förändras framåt?</label>
+      <div class="field-desc">Beskriv vad som behöver fungera eller förändras framåt genom förtydliganden eller justeringar i uppdrag, ansvar eller prioriteringar.</div>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s2_framat" rows="4"></textarea>
+    </div>
+
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="go(1)">← Föregående</button>
+    <button class="btn btn-primary" onclick="go(3)">Nästa avsnitt →</button>
+  </div>
+</section>
+
+<section class="card" data-section="3">
+  <div class="card-header">
+    <div class="section-num">3</div>
+    <div class="card-header-text">
+      <h2>Samarbete och arbetsklimat</h2>
+      <p>Detta område syftar till att skapa en gemensam bild av hur samarbetet fungerar och hur arbetsklimatet upplevs.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul><li>Hur fungerar samarbetet i arbetsgruppen?</li><li>Finns det något i samarbetet som behöver fungera bättre framåt?</li></ul>
+    </div>
+    <div class="status-block">
+      <h3>Samlad lägesbild</h3>
+      <p class="status-intro">Markera det alternativ som bäst stämmer med din upplevelse i detta område. Bedömningen är en startpunkt för dialog - det är samtalet som avgör nuläget och vad som behöver göras framåt.</p>
+      <div class="status-options" role="radiogroup">
+        <label class="status-option ok" onclick="selectStatus(this,'s3')" aria-label="Fungerar väl – Det fungerar överlag bra">
+          <input type="radio" name="s3_status" value="ok">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar väl</div><div class="label-sub">Det fungerar överlag bra</div></div>
+        </label>
+        <label class="status-option warn" onclick="selectStatus(this,'s3')" aria-label="Fungerar delvis – Det finns delar som kan utvecklas">
+          <input type="radio" name="s3_status" value="warn">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar delvis</div><div class="label-sub">Det finns delar som kan utvecklas</div></div>
+        </label>
+        <label class="status-option avv" onclick="selectStatus(this,'s3')" aria-label="Behöver utvecklas – Det finns tydliga behov av förändring">
+          <input type="radio" name="s3_status" value="avv">
+          <div class="dot"></div>
+          <div><div class="label-text">Behöver utvecklas</div><div class="label-sub">Det finns tydliga behov av förändring</div></div>
+        </label>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Medarbetarens reflektion</label>
+      <textarea placeholder="Skriv din reflektion här..." name="s3_medarbetare" rows="4"></textarea>
+    </div>
+    <div class="field-group">
+      <label>Chefens reflektion</label>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s3_chef" rows="4"></textarea>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam framåtblick - vad behöver fungera eller förändras framåt?</label>
+      <div class="field-desc">Beskriv vad som behöver fungera eller förändras framåt för att stärka samarbete, kommunikation och arbetsklimat.</div>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s3_framat" rows="4"></textarea>
+    </div>
+
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="go(2)">← Föregående</button>
+    <button class="btn btn-primary" onclick="go(4)">Nästa avsnitt →</button>
+  </div>
+</section>
+
+<section class="card" data-section="4">
+  <div class="card-header">
+    <div class="section-num">4</div>
+    <div class="card-header-text">
+      <h2>Utveckling och arbetssätt</h2>
+      <p>Detta område syftar till att skapa riktning framåt i medarbetarens utveckling och koppla den till uppdraget och verksamhetens behov.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul><li>Vad fungerar bra i ditt arbete idag?</li><li>Vad vill du utveckla eller ta mer ansvar för framåt?</li></ul>
+    </div>
+    <div class="status-block">
+      <h3>Samlad lägesbild</h3>
+      <p class="status-intro">Markera det alternativ som bäst stämmer med din upplevelse i detta område. Bedömningen är en startpunkt för dialog - det är samtalet som avgör nuläget och vad som behöver göras framåt.</p>
+      <div class="status-options" role="radiogroup">
+        <label class="status-option ok" onclick="selectStatus(this,'s4')" aria-label="Fungerar väl – Det fungerar överlag bra">
+          <input type="radio" name="s4_status" value="ok">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar väl</div><div class="label-sub">Det fungerar överlag bra</div></div>
+        </label>
+        <label class="status-option warn" onclick="selectStatus(this,'s4')" aria-label="Fungerar delvis – Det finns delar som kan utvecklas">
+          <input type="radio" name="s4_status" value="warn">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar delvis</div><div class="label-sub">Det finns delar som kan utvecklas</div></div>
+        </label>
+        <label class="status-option avv" onclick="selectStatus(this,'s4')" aria-label="Behöver utvecklas – Det finns tydliga behov av förändring">
+          <input type="radio" name="s4_status" value="avv">
+          <div class="dot"></div>
+          <div><div class="label-text">Behöver utvecklas</div><div class="label-sub">Det finns tydliga behov av förändring</div></div>
+        </label>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Medarbetarens reflektion</label>
+      <textarea placeholder="Skriv din reflektion här..." name="s4_medarbetare" rows="4"></textarea>
+    </div>
+    <div class="field-group">
+      <label>Chefens reflektion</label>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s4_chef" rows="4"></textarea>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam framåtblick - vad behöver fungera eller förändras framåt?</label>
+      <div class="field-desc">Beskriv vilken utveckling som är viktigast kommande period och hur den ska ske i praktiken.</div>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s4_framat" rows="4"></textarea>
+    </div>
+
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="go(3)">← Föregående</button>
+    <button class="btn btn-primary" onclick="go(5)">Nästa avsnitt →</button>
+  </div>
+</section>
+
+<section class="card" data-section="5">
+  <div class="card-header">
+    <div class="section-num">5</div>
+    <div class="card-header-text">
+      <h2>Medarbetarengagemang</h2>
+      <p>Detta område syftar till att förstå vad som påverkar medarbetarens engagemang och skapa rätt förutsättningar för motivation och prestation.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul><li>Hur upplever du ditt engagemang i arbetet?</li><li>Vad påverkar ditt engagemang mest framåt?</li></ul>
+    </div>
+    <div class="status-block">
+      <h3>Samlad lägesbild</h3>
+      <p class="status-intro">Markera det alternativ som bäst stämmer med din upplevelse i detta område. Bedömningen är en startpunkt för dialog - det är samtalet som avgör nuläget och vad som behöver göras framåt.</p>
+      <div class="status-options" role="radiogroup">
+        <label class="status-option ok" onclick="selectStatus(this,'s5')" aria-label="Fungerar väl – Det fungerar överlag bra">
+          <input type="radio" name="s5_status" value="ok">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar väl</div><div class="label-sub">Det fungerar överlag bra</div></div>
+        </label>
+        <label class="status-option warn" onclick="selectStatus(this,'s5')" aria-label="Fungerar delvis – Det finns delar som kan utvecklas">
+          <input type="radio" name="s5_status" value="warn">
+          <div class="dot"></div>
+          <div><div class="label-text">Fungerar delvis</div><div class="label-sub">Det finns delar som kan utvecklas</div></div>
+        </label>
+        <label class="status-option avv" onclick="selectStatus(this,'s5')" aria-label="Behöver utvecklas – Det finns tydliga behov av förändring">
+          <input type="radio" name="s5_status" value="avv">
+          <div class="dot"></div>
+          <div><div class="label-text">Behöver utvecklas</div><div class="label-sub">Det finns tydliga behov av förändring</div></div>
+        </label>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Medarbetarens reflektion</label>
+      <textarea placeholder="Skriv din reflektion här..." name="s5_medarbetare" rows="4"></textarea>
+    </div>
+    <div class="field-group">
+      <label>Chefens reflektion</label>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s5_chef" rows="4"></textarea>
+    </div>
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam framåtblick - vad behöver fungera eller förändras framåt?</label>
+      <div class="field-desc">Beskriv vad som behöver fortsätta fungera och vad som behöver förändras för att stärka engagemanget.</div>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s5_framat" rows="4"></textarea>
+    </div>
+
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="go(4)">← Föregående</button>
+    <button class="btn btn-primary" onclick="go(6)">Nästa avsnitt →</button>
+  </div>
+</section>
+
+<section class="card" data-section="6">
+  <div class="card-header">
+    <div class="section-num">6</div>
+    <div class="card-header-text">
+      <h2>Sammanfattning och fokus framåt</h2>
+      <p>Detta område syftar till att samla samtalet och tydliggöra riktning, prioriteringar och uppföljning.</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="fragor-block">
+      <h3>Diskussionsfrågor</h3>
+      <ul>
+        <li>Vad av det vi har pratat om är viktigast att prioritera?</li>
+        <li>Vilket stöd eller vilka förutsättningar behövs?</li>
+        <li>Hur och när följer vi upp det vi kommit överens om?</li>
+      </ul>
+    </div>
+
+    <div class="summary-wrap">
+      <div class="summary-title">Översikt – lägesbild per område</div>
+      <div class="summary-grid" id="summary-grid"></div>
+    </div>
+
+    <hr class="divider">
+    <div class="field-group">
+      <label>Gemensam överenskommelse och uppföljning</label>
+      <div class="field-desc">Vad är ni överens om att prioritera framåt? Ange vad som ska göras, av vem och när ni följer upp.</div>
+      <textarea placeholder="Skriv ner vad ni kommit överens om..." name="s6_framat" rows="6"></textarea>
+    </div>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-ghost" onclick="go(5)">← Föregående</button>
+    <button class="btn btn-success" onclick="window.print()">Skriv ut / spara PDF</button>
+  </div>
+</section>
+
+<script>
+const SECTIONS = ["Hälsa och arbetsmiljö", "Uppdrag, ansvar och tydlighet", "Samarbete och arbetsklimat", "Utveckling och arbetssätt", "Medarbetarengagemang", "Sammanfattning och fokus framåt"];
+const statusMap = {};
+const STORAGE_KEY = 'medarbetarsamtal_v4_autosave';
+let current = 1;
+const nav = document.getElementById('steps-nav');
+SECTIONS.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'step-dot' + (i === 0 ? ' active' : '');
+  btn.id = 'dot-' + (i + 1);
+  btn.innerHTML = `<span class="num">${i+1}</span>${s}`;
+  btn.onclick = () => go(i + 1);
+  nav.appendChild(btn);
+});
+function go(n) {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[data-section="${n}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  for (let i = 1; i < n; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.classList.remove('active'); dot.classList.add('done');
+    dot.querySelector('.num').textContent = '✓';
+    dot.setAttribute('aria-label', `Steg ${i} av ${SECTIONS.length}: ${SECTIONS[i-1]}, klart`);
+    dot.removeAttribute('aria-current');
+  }
+  const activeDot = document.getElementById('dot-' + n);
+  activeDot.classList.remove('done'); activeDot.classList.add('active');
+  activeDot.querySelector('.num').textContent = n;
+  activeDot.setAttribute('aria-current', 'step');
+  activeDot.setAttribute('aria-label', `Steg ${n} av ${SECTIONS.length}: ${SECTIONS[n-1]}, aktuellt`);
+  for (let i = n + 1; i <= SECTIONS.length; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.classList.remove('active', 'done');
+    dot.querySelector('.num').textContent = i;
+    dot.setAttribute('aria-label', `Steg ${i} av ${SECTIONS.length}: ${SECTIONS[i-1]}`);
+    dot.removeAttribute('aria-current');
+  }
+  const pct = Math.round((n / SECTIONS.length) * 100);
+  const fill = document.getElementById('progress-fill');
+  fill.style.width = pct + '%';
+  fill.setAttribute('aria-valuenow', pct);
+  fill.setAttribute('aria-label', `Avsnitt ${n} av ${SECTIONS.length}`);
+  document.getElementById('progress-label').textContent = `Avsnitt ${n} av ${SECTIONS.length}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  current = n;
+  if (n === 6) buildSummary();
+  const heading = document.querySelector(`[data-section="${n}"] h2`);
+  if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
+}
+function selectStatus(el, key) {
+  const siblings = el.closest('.status-options').querySelectorAll('.status-option');
+  siblings.forEach(s => s.classList.remove('checked'));
+  el.classList.add('checked');
+  el.querySelector('input').checked = true;
+  const val = el.querySelector('input').value;
+  statusMap[key] = { val, label: el.querySelector('.label-text').textContent, section: SECTIONS[parseInt(key.replace('s','')) - 1] };
+  persistFormData();
+  if (current === 6) buildSummary();
+}
+function buildSummary() {
+  const grid = document.getElementById('summary-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let i = 1; i <= SECTIONS.length - 1; i++) {
+    const status = statusMap['s' + i];
+    const item = document.createElement('div');
+    item.className = 'summary-item';
+    let badge = '<span class="summary-badge badge-none">Ej angiven</span>';
+    if (status) {
+      const cls = status.val === 'ok' ? 'badge-ok' : status.val === 'warn' ? 'badge-warn' : 'badge-avv';
+      badge = `<span class="summary-badge ${cls}">${status.label}</span>`;
+    }
+    item.innerHTML = `<h4>${SECTIONS[i-1]}</h4>${badge}`;
+    grid.appendChild(item);
+  }
+}
+function persistFormData() {
+  const payload = { statusMap: statusMap, fields: {} };
+  document.querySelectorAll('textarea').forEach(t => payload.fields[t.name] = t.value);
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); } catch(e) {}
+}
+function restoreFormData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const payload = JSON.parse(raw);
+    if (payload.fields) {
+      document.querySelectorAll('textarea').forEach(t => {
+        if (payload.fields[t.name] !== undefined) t.value = payload.fields[t.name];
+      });
+    }
+    if (payload.statusMap) {
+      Object.keys(payload.statusMap).forEach(key => {
+        const data = payload.statusMap[key];
+        statusMap[key] = data;
+        const input = document.querySelector(`input[name="${key}_status"][value="${data.val}"]`);
+        if (input) {
+          input.checked = true;
+          input.closest('.status-option').classList.add('checked');
+        }
+      });
+    }
+  } catch(e) {}
+}
+function resetFormData() {
+  if (!confirm('Vill du rensa all lokalt sparad information i formuläret?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('.status-option').forEach(o => o.classList.remove('checked'));
+  document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+  Object.keys(statusMap).forEach(k => delete statusMap[k]);
+  buildSummary();
+  go(1);
+}
+document.querySelectorAll('textarea').forEach(t => t.addEventListener('input', persistFormData));
+restoreFormData();
+buildSummary();
+</script>
+</body>
+</html>
+EF - MEDARBETARE_byt till initialer eller avkodad info</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
