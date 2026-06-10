@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medarbetarsamtal</title>
+<title>Medarbetarsamtal – CHEF-MEDARBETARE byt till initialer</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -84,6 +84,7 @@
   .field-desc { font-size:.82rem; color:var(--muted); line-height:1.55; margin-bottom:8px; }
   textarea { width:100%; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; font-family:Arial, Helvetica, sans-serif; font-size:.9rem; color:var(--text); resize:vertical; min-height:110px; line-height:1.55; }
   textarea:focus { outline:none; border-color:var(--blue-accent); box-shadow:0 0 0 3px rgba(59,111,207,.12); }
+  .print-mirror { display:none; }
   .divider { border:none; border-top:1px solid var(--blue-light); margin:22px 0; }
   .nav-buttons { display:flex; justify-content:space-between; align-items:center; padding:20px 30px; border-top:1px solid var(--blue-light); background:var(--bg); }
   .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-size:.86rem; font-weight:700; cursor:pointer; border:none; transition:all .2s; }
@@ -165,7 +166,9 @@
     .field-group { margin-bottom:8px; }
     .field-group label { font-size:6.5pt; margin-bottom:4px; display:block; }
     .field-desc { font-size:7pt; margin-bottom:4px; }
-    textarea { height:auto !important; min-height:20px !important; font-size:8pt; border:1px solid #b7c2d3; border-radius:5px; padding:5px 8px; resize:none; overflow:visible !important; background:white; white-space:pre-wrap; word-break:break-word; }
+    textarea { display:none !important; }
+    .print-mirror { display:block !important; font-size:8pt; font-family:Arial,Helvetica,sans-serif; border:1px solid #b7c2d3; border-radius:5px; padding:5px 8px; background:white; white-space:pre-wrap; word-break:break-word; min-height:20px; color:#1a1a2e; line-height:1.5; }
+    .print-mirror:empty::before { content:' '; display:block; }
 
     /* Summary (avsnitt 6) */
     .summary-wrap { margin-top:6px; break-inside:avoid; }
@@ -263,17 +266,17 @@
     <hr class="divider">
     <div class="field-group">
       <label>Medarbetarens reflektion</label>
-      <textarea placeholder="Skriv din reflektion här..." name="s1_medarbetare" rows="4"></textarea>
+      <textarea placeholder="Skriv din reflektion här..." name="s1_medarbetare" rows="4"></textarea><div class="print-mirror" data-mirror="s1_medarbetare"></div>
     </div>
     <div class="field-group">
       <label>Chefens reflektion</label>
-      <textarea placeholder="Skriv chefens reflektion här..." name="s1_chef" rows="4"></textarea>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s1_chef" rows="4"></textarea><div class="print-mirror" data-mirror="s1_chef"></div>
     </div>
     <hr class="divider">
     <div class="field-group">
       <label>Gemensam framåtblick - vad behöver fungera bättre eller förändras framåt?</label>
       <div class="field-desc">Beskriv vad som behöver fungera bättre eller förändras framåt för att skapa en hållbar arbetssituation, inklusive eventuella åtgärder eller justeringar.</div>
-      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s1_framat" rows="4"></textarea>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s1_framat" rows="4"></textarea><div class="print-mirror" data-mirror="s1_framat"></div>
     </div>
 
   </div>
@@ -320,17 +323,17 @@
     <hr class="divider">
     <div class="field-group">
       <label>Medarbetarens reflektion</label>
-      <textarea placeholder="Skriv din reflektion här..." name="s2_medarbetare" rows="4"></textarea>
+      <textarea placeholder="Skriv din reflektion här..." name="s2_medarbetare" rows="4"></textarea><div class="print-mirror" data-mirror="s2_medarbetare"></div>
     </div>
     <div class="field-group">
       <label>Chefens reflektion</label>
-      <textarea placeholder="Skriv chefens reflektion här..." name="s2_chef" rows="4"></textarea>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s2_chef" rows="4"></textarea><div class="print-mirror" data-mirror="s2_chef"></div>
     </div>
     <hr class="divider">
     <div class="field-group">
       <label>Gemensam framåtblick - vad behöver fungera bättre eller förändras framåt?</label>
       <div class="field-desc">Beskriv vad som behöver fungera bättre eller förändras framåt genom förtydliganden eller justeringar i uppdrag, ansvar eller prioriteringar.</div>
-      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s2_framat" rows="4"></textarea>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s2_framat" rows="4"></textarea><div class="print-mirror" data-mirror="s2_framat"></div>
     </div>
 
   </div>
@@ -377,17 +380,17 @@
     <hr class="divider">
     <div class="field-group">
       <label>Medarbetarens reflektion</label>
-      <textarea placeholder="Skriv din reflektion här..." name="s3_medarbetare" rows="4"></textarea>
+      <textarea placeholder="Skriv din reflektion här..." name="s3_medarbetare" rows="4"></textarea><div class="print-mirror" data-mirror="s3_medarbetare"></div>
     </div>
     <div class="field-group">
       <label>Chefens reflektion</label>
-      <textarea placeholder="Skriv chefens reflektion här..." name="s3_chef" rows="4"></textarea>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s3_chef" rows="4"></textarea><div class="print-mirror" data-mirror="s3_chef"></div>
     </div>
     <hr class="divider">
     <div class="field-group">
       <label>Gemensam framåtblick - vad behöver fungera bättre eller förändras framåt?</label>
       <div class="field-desc">Beskriv vad som behöver fungera bättre eller förändras framåt för att stärka samarbete, kommunikation och arbetsklimat.</div>
-      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s3_framat" rows="4"></textarea>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s3_framat" rows="4"></textarea><div class="print-mirror" data-mirror="s3_framat"></div>
     </div>
 
   </div>
@@ -434,17 +437,17 @@
     <hr class="divider">
     <div class="field-group">
       <label>Medarbetarens reflektion</label>
-      <textarea placeholder="Skriv din reflektion här..." name="s4_medarbetare" rows="4"></textarea>
+      <textarea placeholder="Skriv din reflektion här..." name="s4_medarbetare" rows="4"></textarea><div class="print-mirror" data-mirror="s4_medarbetare"></div>
     </div>
     <div class="field-group">
       <label>Chefens reflektion</label>
-      <textarea placeholder="Skriv chefens reflektion här..." name="s4_chef" rows="4"></textarea>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s4_chef" rows="4"></textarea><div class="print-mirror" data-mirror="s4_chef"></div>
     </div>
     <hr class="divider">
     <div class="field-group">
       <label>Gemensam framåtblick - vad behöver fungera bättre eller förändras framåt?</label>
       <div class="field-desc">Beskriv vilken utveckling som är viktigast kommande period och hur den ska ske i praktiken.</div>
-      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s4_framat" rows="4"></textarea>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s4_framat" rows="4"></textarea><div class="print-mirror" data-mirror="s4_framat"></div>
     </div>
 
   </div>
@@ -491,17 +494,17 @@
     <hr class="divider">
     <div class="field-group">
       <label>Medarbetarens reflektion</label>
-      <textarea placeholder="Skriv din reflektion här..." name="s5_medarbetare" rows="4"></textarea>
+      <textarea placeholder="Skriv din reflektion här..." name="s5_medarbetare" rows="4"></textarea><div class="print-mirror" data-mirror="s5_medarbetare"></div>
     </div>
     <div class="field-group">
       <label>Chefens reflektion</label>
-      <textarea placeholder="Skriv chefens reflektion här..." name="s5_chef" rows="4"></textarea>
+      <textarea placeholder="Skriv chefens reflektion här..." name="s5_chef" rows="4"></textarea><div class="print-mirror" data-mirror="s5_chef"></div>
     </div>
     <hr class="divider">
     <div class="field-group">
       <label>Gemensam framåtblick - vad behöver fungera bättre eller förändras framåt?</label>
       <div class="field-desc">Beskriv vad som behöver fortsätta fungera och vad som behöver förändras för att stärka engagemanget.</div>
-      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s5_framat" rows="4"></textarea>
+      <textarea placeholder="Beskriv gemensamma fokusområden och åtgärder..." name="s5_framat" rows="4"></textarea><div class="print-mirror" data-mirror="s5_framat"></div>
     </div>
 
   </div>
@@ -538,7 +541,7 @@
     <div class="field-group">
       <label>Gemensam överenskommelse och uppföljning</label>
       <div class="field-desc">Vad är ni överens om att prioritera framåt? Ange vad som ska göras, av vem och när ni följer upp.</div>
-      <textarea placeholder="Skriv ner vad ni kommit överens om..." name="s6_framat" rows="6"></textarea>
+      <textarea placeholder="Skriv ner vad ni kommit överens om..." name="s6_framat" rows="6"></textarea><div class="print-mirror" data-mirror="s6_framat"></div>
     </div>
   </div>
   <div class="nav-buttons">
@@ -667,25 +670,42 @@ buildSummary();
 </script>
 
 <script>
-window.addEventListener('beforeprint', function() {
+// Synka textarea-innehåll till print-mirror i realtid
+document.addEventListener('DOMContentLoaded', function() {
+  function syncMirrors() {
+    document.querySelectorAll('textarea').forEach(function(ta) {
+      var mirror = ta.nextElementSibling;
+      if (mirror && mirror.classList.contains('print-mirror')) {
+        mirror.textContent = ta.value;
+      }
+    });
+  }
   document.querySelectorAll('textarea').forEach(function(ta) {
-    ta.style.height = 'auto';
-    ta.style.height = ta.scrollHeight + 'px';
-    ta.style.overflow = 'visible';
+    ta.addEventListener('input', function() {
+      var mirror = ta.nextElementSibling;
+      if (mirror && mirror.classList.contains('print-mirror')) {
+        mirror.textContent = ta.value;
+      }
+    });
   });
-  // Visa alla avsnitt vid utskrift
-  document.querySelectorAll('.card').forEach(function(c) {
-    c.style.display = 'block';
-  });
-});
-window.addEventListener('afterprint', function() {
-  document.querySelectorAll('textarea').forEach(function(ta) {
-    ta.style.height = '';
-    ta.style.overflow = '';
-  });
-  // Återställ — dölj alla utom aktivt
-  document.querySelectorAll('.card').forEach(function(c) {
-    c.style.display = '';
+  // Synka alla kort till synliga vid print via Skriv ut-knapp
+  document.querySelectorAll('[onclick="window.print()"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      syncMirrors();
+      // Visa alla kort
+      document.querySelectorAll('.card').forEach(function(c) {
+        c._wasHidden = !c.classList.contains('active');
+        c.style.display = 'block';
+      });
+      setTimeout(function() {
+        window.print();
+        // Återställ efter print
+        document.querySelectorAll('.card').forEach(function(c) {
+          if (c._wasHidden) c.style.display = '';
+        });
+      }, 100);
+    }, true);
   });
 });
 </script>
